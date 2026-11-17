@@ -46,3 +46,5 @@ No further tests performed, per user instruction. Final optimized version and pu
 Audio configuration correction: project default Sample is1, unlike AudioServer player enum Sample2. Corrected project.godot and explicitly pinned web players to Sample. The earlier diagnostic playback had zero Sample gain ramps, which led to this fix. Final focused check pending.
 
 Audio1.0.1 focused browser check complete: correct Sample backend,2,922 audio-clock ramps, full loop continuity, peak0.198,0 sampled clipping, mute/pause/resume observed, no browser errors. Temporary QA HTML removed. Source and production deployment update in progress. No further tests planned.
+
+Audio1.0.1 published successfully as Sites version2 at15:49 MYT,17 November2026. Deployed source8df693dd6c669e6c4cadbc88eddfa1cd12642678. Public URL remains https://after-the-rain-courtyard.rafaeitahirmy.chatgpt.site . GitHub main and codex/after-the-rain updated. The identical packaged runtime was checked locally; no extra public replay was run.
