@@ -1,0 +1,18 @@
+# Godot generated imports and editor state
+.godot/
+
+# Generated exports and transient work
+builds/*
+!builds/.gdignore
+tmp/
+*.tmp
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+art-source/.audio-tools/
+dist/
+*.blend1
+

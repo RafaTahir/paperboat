@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#153e3b"><meta name="description" content="Guide a handmade paper boat through a Malaysian courtyard after tropical rain. A quiet five-minute journey, with room to linger."><title>AFTER THE RAIN</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#153e3b;color:#f4edda;font:16px system-ui,sans-serif}canvas{display:block;width:100%;height:100%;outline:0}#loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;background:radial-gradient(ellipse at 65% 20%,#3c6258,#122e2d);z-index:5;padding:32px}h1{font:clamp(30px,5vw,56px) Georgia,serif;letter-spacing:.13em;font-weight:400;margin:20px 0}small{letter-spacing:.2em;font-size:11px}p{color:#d2d2b9}progress{accent-color:#ccb882;width:min(420px,80vw);height:5px;margin:25px auto}button{background:#c5b47e;border:0;color:#153e3b;padding:12px 28px;font:inherit;cursor:pointer;border-radius:3px}#error{display:none;max-width:500px;line-height:1.6}#audio-enable{display:none;position:fixed;bottom:16px;right:16px;z-index:12;font-size:13px}#loading.hidden{display:none}.boat{width:64px;height:34px;margin:auto;background:#eee5ce;clip-path:polygon(0 38%,40% 48%,50% 0,62% 45%,100% 30%,79% 100%,22% 100%)}
+</style>$GODOT_HEAD_INCLUDE</head><body>
+<canvas id="canvas" tabindex="0" aria-label="After the Rain. Use WASD or arrow keys to guide. Hold Space for a breeze. Escape pauses."></canvas>
+<div id="loading" role="status"><div class="boat"></div><small>A SMALL JOURNEY IN A MALAYSIAN COURTYARD</small><h1>AFTER THE RAIN</h1><p id="message">Gathering the last drops…</p><progress id="progress"></progress><div id="error"><p>The courtyard could not open. Check your connection and try again in a browser with WebGL 2 enabled.</p><button onclick="location.reload()">Try again</button></div><small>KEYBOARD & GAMEPAD · HEADPHONES WELCOME</small></div>
+<button id="audio-enable">Click to enable sound</button>
+<noscript>This little journey needs JavaScript enabled.</noscript>
+<script>
+// Static hosts can cap individual files. Production packages split the unchanged
+// official WASM into two parts; fetch presents their exact bytes as one response.
+const nativeFetch=window.fetch.bind(window);
+window.fetch=async function(input,options){
+ const url=typeof input==='string'?input:input.url;
+ if(url && /(?:^|\/)index\.wasm(?:\?|$)/.test(url) && window.AFTER_RAIN_WASM_PARTS){
+  const chunks=await Promise.all(window.AFTER_RAIN_WASM_PARTS.map(name=>nativeFetch(new URL(name,location.href),options).then(r=>{if(!r.ok)throw Error('Engine download failed');return r.arrayBuffer()})));
+  return new Response(new Blob(chunks),{headers:{'Content-Type':'application/wasm','Content-Length':String(chunks.reduce((n,b)=>n+b.byteLength,0))}});
+ }
+ return nativeFetch(input,options);
+};
+</script>
+<!-- WASM_PARTS -->
+<script src="$GODOT_URL"></script><script>
+const config=$GODOT_CONFIG;
+const engine=new Engine(config);
+window.afterRainErrors=[];
+const fail=(err)=>{console.error(err);window.afterRainErrors.push(String(err));document.getElementById('loading').classList.remove('hidden');document.getElementById('message').textContent='A little trouble on the way.';document.getElementById('progress').style.display='none';document.getElementById('error').style.display='block';};
+const missing=Engine.getMissingFeatures({threads:$GODOT_THREADS_ENABLED});
+if(missing.length){fail(missing.join(', '));}else{
+ engine.startGame({onProgress:(current,total)=>{let p=document.getElementById('progress');if(total>0){p.max=total;p.value=current;document.getElementById('message').textContent='Opening the courtyard… '+Math.round(100*current/total)+'%';}}}).then(()=>{document.getElementById('loading').classList.add('hidden');document.getElementById('canvas').focus();}).catch(fail);
+}
+window.addEventListener('error',e=>{window.afterRainErrors.push(e.message)});
+window.addEventListener('unhandledrejection',e=>{window.afterRainErrors.push(String(e.reason))});
+// Track the actual browser AudioContexts for deliberate unlock and a gamepad fallback.
+window.afterRainAudioContexts=[];
+for(const key of ['AudioContext','webkitAudioContext']){if(window[key]){const Base=window[key];window[key]=class extends Base{constructor(...a){super(...a);window.afterRainAudioContexts.push(this)}}}}
+let audioReported=false;
+function unlock(){for(const c of window.afterRainAudioContexts)c.resume().then(()=>{if(!audioReported){console.info('AUDIO_CONTEXT '+c.state);audioReported=true;}}).catch(()=>{});document.getElementById('audio-enable').style.display='none';}
+document.addEventListener('pointerdown',unlock,{passive:true});document.addEventListener('keydown',unlock);
+document.getElementById('audio-enable').onclick=unlock;
+setInterval(()=>{if(window.afterRainAudioContexts.some(c=>c.state==='suspended')&&window.afterRainReady)document.getElementById('audio-enable').style.display='block'},4000);
+</script></body></html>
