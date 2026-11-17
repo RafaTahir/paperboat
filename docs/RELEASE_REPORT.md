@@ -7,7 +7,7 @@ GDScript, Compatibility, WebGL2, single-threaded, extensions disabled, no PWA.
 Blender **5.2.3 LTS** for original GLBs. Runtime uses committed GLBs/OGG, not Blender/Python.
 Source branch: `codex/after-the-rain`. Exact release commit is recorded by the deployment and Git log (to avoid a self-referential hash in source).
 
-Publication: pending final source package/deployment. Public access has been configured; no live release claimed yet.
+Published successfully through ChatGPT Sites: https://after-the-rain-courtyard.rafaeitahirmy.chatgpt.site . Public audience, no sign-in configured. Hosting reported success at 14:57 MYT on 17 November 2026. Deployed source commit: 671f783df586dc0de6082dcc2b6cc7f0608d931f. GitHub: https://github.com/RafaTahir/paperboat, branches main and codex/after-the-rain. The final public version was not play-tested after publication, at the user's explicit request.
 
 ## Changelog
 
@@ -46,3 +46,4 @@ All production art/audio are original project work with reproducible sources. No
 ## Release freeze
 
 At the user's explicit request, all further testing/verification stopped. The final performance and UI refinements were exported but not browser-retested. Publishing proceeds using the existing evidence; the final public build has not been play-verified. No additional quality claims are implied.
+

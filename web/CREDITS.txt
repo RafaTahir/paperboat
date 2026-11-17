@@ -1,0 +1,1 @@
+Credits: Original project meshes, materials, music and sound authored for AFTER THE RAIN. Godot Engine4.6.3 (MIT). Bundled Open Sans SemiBold (SIL OFL1.1). Full engine/library/font notices: GODOT_COPYRIGHT.txt and GODOT_LICENSE.txt. Source provenance and status are in docs/asset_register.csv and docs/LICENSES.md.
