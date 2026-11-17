@@ -1,5 +1,14 @@
 # Build status
 
+## Audio update1.0.1
+
+User reported distorted music. Source inspection found frame-by-frame gains
+reaching immediate browser AudioParam assignments in the pinned Godot backend.
+Implemented a narrowly scoped audio-clock ramp adapter, preserving all music
+stems/crossfades and Sample playback; stopped resuming already-running contexts.
+Import/export/package produced. One user-authorized focused browser audio check
+is in progress; no broad regression suite is being run.
+
 Engine: Godot **4.6.3.stable** (installed editor and matching official templates).
 Renderer: Compatibility. Primary target: single-threaded WebGL 2 desktop browser.
 Project isolated from the parent workspace. Branch: `codex/after-the-rain`.
@@ -33,3 +42,7 @@ Public deployment succeeded: https://after-the-rain-courtyard.rafaeitahirmy.chat
 Deployed source:671f783df586dc0de6082dcc2b6cc7f0608d931f.
 GitHub source pushed to RafaTahir/paperboat on main and codex/after-the-rain.
 No further tests performed, per user instruction. Final optimized version and public launch remain unobserved; prior browser run and headless results recorded above.
+
+Audio configuration correction: project default Sample is1, unlike AudioServer player enum Sample2. Corrected project.godot and explicitly pinned web players to Sample. The earlier diagnostic playback had zero Sample gain ramps, which led to this fix. Final focused check pending.
+
+Audio1.0.1 focused browser check complete: correct Sample backend,2,922 audio-clock ramps, full loop continuity, peak0.198,0 sampled clipping, mute/pause/resume observed, no browser errors. Temporary QA HTML removed. Source and production deployment update in progress. No further tests planned.

@@ -1,5 +1,8 @@
 extends Node
 ## File-based, web-safe original soundtrack. Call begin() from the Begin gesture.
+## Web export packages an audio-clock ramp adapter for SampleNodeBus gains.
+## Preserve these gradual mix targets; lowering the update frequency alone
+## would create larger audible steps in the unpatched browser backend.
 
 const AUDIO_PATH := "res://assets/audio/"
 const LOOP_NAMES := ["music_calm", "music_motion", "music_arrival", "courtyard_ambience", "water_lap", "rain_chain"]
@@ -35,6 +38,8 @@ func _ready() -> void:
 		var player := AudioStreamPlayer.new()
 		player.name = sound_name
 		player.stream = stream
+		if OS.has_feature("web"):
+			player.playback_type = AudioServer.PLAYBACK_TYPE_SAMPLE
 		player.volume_db = -80.0
 		add_child(player)
 		_loops[sound_name] = player
@@ -43,6 +48,8 @@ func _ready() -> void:
 		_streams[sound_name] = load(AUDIO_PATH + sound_name + ".ogg")
 	for i in range(8):
 		var voice := AudioStreamPlayer.new()
+		if OS.has_feature("web"):
+			voice.playback_type = AudioServer.PLAYBACK_TYPE_SAMPLE
 		voice.name = "DetailVoice%d" % i
 		add_child(voice)
 		_voices.append(voice)

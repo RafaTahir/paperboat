@@ -23,7 +23,8 @@ environment/defaults/default_clear_color=Color(0.51,0.63,0.60,1)
 lights_and_shadows/directional_shadow/size=2048
 
 [audio]
-general/default_playback_type.web=2
+; Project setting: 0=Stream, 1=Sample. Player enum values are different.
+general/default_playback_type.web=1
 
 [physics]
 common/physics_ticks_per_second=60

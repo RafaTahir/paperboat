@@ -47,3 +47,9 @@ All production art/audio are original project work with reproducible sources. No
 
 At the user's explicit request, all further testing/verification stopped. The final performance and UI refinements were exported but not browser-retested. Publishing proceeds using the existing evidence; the final public build has not been play-verified. No additional quality claims are implied.
 
+
+## Audio repair1.0.1
+
+Corrected a project-setting/player-enum mismatch: web default playback now1=Sample, with explicit Sample selection on every web AudioStreamPlayer. The previous value2 was incorrect for the project setting. Added an audio-clock gain ramp adapter for continuous layer crossfades and skipped resume calls on already-running contexts. Source audio is unchanged. A focused browser audio-output check is being completed; no broad gameplay tests are run for this change.
+
+Focused audio check completed,17 November2026: actual Chromium web export, Sample backend active,2,922 smoothed channel-gain changes observed. Output continued beyond the53.33s music loop, with682 non-silent sampled windows, maximum observed absolute sample0.198 (-14.1dBFS), and0 sampled values at clipping. Gust changes, full music volume, mute, pause and resume exercised; pause output reached zero and muted output was near silence. No browser warning/error logs. This was one focused diagnostic pass with a corrective rebuild after the initial configuration failure; no broad regression suite. These are output/ramp observations, not a human headphone/speaker listening review. Temporary instrumented HTML removed before publication.

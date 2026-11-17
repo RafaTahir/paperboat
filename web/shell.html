@@ -36,7 +36,7 @@ window.addEventListener('unhandledrejection',e=>{window.afterRainErrors.push(Str
 window.afterRainAudioContexts=[];
 for(const key of ['AudioContext','webkitAudioContext']){if(window[key]){const Base=window[key];window[key]=class extends Base{constructor(...a){super(...a);window.afterRainAudioContexts.push(this)}}}}
 let audioReported=false;
-function unlock(){for(const c of window.afterRainAudioContexts)c.resume().then(()=>{if(!audioReported){console.info('AUDIO_CONTEXT '+c.state);audioReported=true;}}).catch(()=>{});document.getElementById('audio-enable').style.display='none';}
+function unlock(){for(const c of window.afterRainAudioContexts){if(c.state!=='suspended')continue;c.resume().then(()=>{if(!audioReported){console.info('AUDIO_CONTEXT '+c.state);audioReported=true;}}).catch(()=>{});}document.getElementById('audio-enable').style.display='none';}
 document.addEventListener('pointerdown',unlock,{passive:true});document.addEventListener('keydown',unlock);
 document.getElementById('audio-enable').onclick=unlock;
 setInterval(()=>{if(window.afterRainAudioContexts.some(c=>c.state==='suspended')&&window.afterRainReady)document.getElementById('audio-enable').style.display='block'},4000);

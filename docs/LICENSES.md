@@ -22,6 +22,12 @@ licence for that work. Third-party components below retain their own licences.
 
 This game uses Godot Engine 4.6.3, distributed under the MIT/Expat licence.
 
+Version1.0.1 adapts the web JavaScript SampleNodeBus.setVolume method through
+`web/patch_web_audio.mjs` to smooth gain changes on the audio clock. The WASM
+binary is unchanged. The adapter is based on the exact4.6.3-stable
+`platform/web/js/libs/library_godot_audio.js` source; upstream copyright and full
+MIT/third-party notices are preserved in the distributed notice files.
+
 Copyright (c) 2014-present Godot Engine contributors.
 Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
 

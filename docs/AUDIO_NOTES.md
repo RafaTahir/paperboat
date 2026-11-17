@@ -51,6 +51,34 @@ Tree pause notifications explicitly pause and resume every audio player.
 API: `begin()`, `reset_audio()`, `update_mix(speed,gust,progress,position,delta)`,
 `arrive()`, `play_bump()`, `play_brush()`, `set_levels(music,effects,muted)`.
 
+## Web gain smoothing — 1.0.1
+
+User-reported distorted music prompted source inspection. The game's gradual
+layer targets were sent every frame into Godot 4.6.3's SampleNodeBus.setVolume,
+which assigns AudioParam.value immediately. Those frame-rate steps are a
+plausible source of audible zipper/crackling during crossfades; the exact cause
+was not established by subjective listening.
+
+The focused browser check then exposed the primary configuration mistake:
+`default_playback_type.web` was set to2 (the player enum's Sample value), but
+the project setting uses0=Stream,1=Sample. It is now1, and each web player also
+explicitly uses `AudioServer.PLAYBACK_TYPE_SAMPLE` to prevent that ambiguity.
+The initial diagnostic pass produced audio but zero Sample gain ramps,
+consistent with the wrong backend being selected.
+
+`web/patch_web_audio.mjs`, applied by `web/package.mjs`, replaces that one
+version-pinned JavaScript method with audio-clock gain automation. Initial gains
+are set before playback; later changes use a 25ms exponential time constant,
+hold the current interpolated gain when retargeting, and skip unchanged targets.
+Both standard downloadable and hosted exports receive the adapter. Official
+WASM remains unchanged and Sample playback stays enabled. No higher-latency
+single-thread stream mixing or runtime effects were introduced. Browser unlock
+now calls resume only on suspended contexts.
+
+This is an adaptation of the MIT-licensed Godot JavaScript runtime, whose
+upstream copyright/licence notices remain included. See LICENSES.md.
+One focused browser audio-output/ramp check is recorded in RELEASE_REPORT.md.
+
 ## Observed verification and limits
 
 The offline renderer ran successfully. All sixteen OGG files decoded as finite
@@ -65,3 +93,5 @@ File generation and numeric checks do not establish browser playback, autoplay
 unlock, perceived naturalness, mix comfort or headphones/speaker quality. The
 release owner must record the actual browser listening result, mute/pause result
 and any remaining audio limitation in BUILD_STATUS and the asset register.
+
+The targeted web check observed actual Sample playback and2,922 audio-clock gain ramps through a full music loop. Sampled output peak0.198,0 clipping values; mute/pause/resume behaved as expected and browser logs had no errors. This is objective signal/control evidence, not a subjective listening review. See RELEASE_REPORT.md.
